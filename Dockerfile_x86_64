@@ -16,9 +16,9 @@ ENV LANG=C.UTF-8 \
 #
 RUN set -xe \
     && mkdir -p /opt/jboss \
-    && curl -o /tmp/apache-wildfly.tar.gz -SsL https://download.jboss.org/wildfly/${WFVERSION}/wildfly-${WFVERSION}.tar.gz \
-    && tar -C /opt/jboss -xzf /tmp/apache-wildfly.tar.gz \
-    && ln -s /opt/jboss/apache-wildfly-${WFVERSION} ${WILDFLY_HOME} \
+    && curl -o /tmp/wildfly.tar.gz -SsL https://download.jboss.org/wildfly/${WFVERSION}/wildfly-${WFVERSION}.tar.gz \
+    && tar -C /opt/jboss -xzf /tmp/wildfly.tar.gz \
+    && ln -s /opt/jboss/wildfly-${WFVERSION} ${WILDFLY_HOME} \
     && rm -rf /var/cache/apk/* /tmp/*
 #
 COPY run.sh /opt/jboss/
