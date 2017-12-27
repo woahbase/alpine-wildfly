@@ -85,9 +85,7 @@ stop :
 
 test :
 	# test armhf in real device
-	# if [ "$(ARCH)" != "armhf" ]; then
-	docker run --rm -it $(NAMEFLAGS) $(RUNFLAGS) $(PORTFLAGS) $(MOUNTFLAGS) $(OTHERFLAGS) --entrypoint=/opt/jboss/wildfly/bin/jboss-cli.sh $(IMAGETAG) 'version';
-	# fi;
+	if [ "$(ARCH)" != "armhf" ]; then docker run --rm -it $(NAMEFLAGS) $(RUNFLAGS) $(PORTFLAGS) $(MOUNTFLAGS) $(OTHERFLAGS) --entrypoint=/opt/jboss/wildfly/bin/jboss-cli.sh $(IMAGETAG) 'version'; fi;
 
 # -- }}}
 
