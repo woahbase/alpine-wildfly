@@ -85,7 +85,7 @@ stop :
 
 test :
 	# test armhf in real device
-	if [ "$(ARCH)" != "armhf" ]; then docker run --rm -it $(NAMEFLAGS) $(RUNFLAGS) $(PORTFLAGS) $(MOUNTFLAGS) $(OTHERFLAGS) $(IMAGETAG) 'java -version'; fi;
+	if [ "$(ARCH)" != "armhf" ]; then docker run --rm -it $(NAMEFLAGS) $(RUNFLAGS) $(PORTFLAGS) $(MOUNTFLAGS) $(OTHERFLAGS) --entrypoint=java $(IMAGETAG) '-version'; fi;
 
 # -- }}}
 
