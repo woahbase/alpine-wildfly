@@ -34,7 +34,7 @@ BUILDFLAGS := --rm --force-rm --compress -f $(CURDIR)/Dockerfile_$(ARCH) -t $(IM
 	--label org.label-schema.vendor=$(USERNAME)
 
 CACHEFLAGS := --no-cache=true --pull
-MOUNTFLAGS := -v $(CURDIR)/webapps:/opt/tomcat/webapps
+MOUNTFLAGS := -v $(CURDIR)/deployments:/opt/jboss/wildfly/standalone/deployments
 NAMEFLAGS  := --name docker_$(SVCNAME) --hostname $(SVCNAME)
 OTHERFLAGS := -v /etc/localtime:/etc/localtime:ro # -e TZ=Asia/Kolkata -v /etc/hosts:/etc/hosts:ro
 PORTFLAGS  := -p 8080:8080 -p 9990:9990
