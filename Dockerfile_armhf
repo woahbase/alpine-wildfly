@@ -1,0 +1,31 @@
+ARG ARCH=frommakefile
+ARG DOCKERSRC=frommakefile
+ARG USERNAME=frommakefile
+ARG JVVMAJOR=frommakefile
+#
+FROM ${USERNAME}/${DOCKERSRC}:${ARCH}_${JVVMAJOR}
+#
+ARG WFVERSION=10.1.0.Final
+#
+ENV LANG=C.UTF-8 \
+    WILDFLY_HOME=/opt/jboss/wildfly \
+    JBOSS_HOME=/opt/jboss/wildfly \
+    PATH=$WILDFLY_HOME/bin:$PATH \
+    LAUNCH_JBOSS_IN_BACKGROUND=true \
+    SERVERCONFIG=standalone.xml
+#
+RUN set -xe \
+    && mkdir -p /opt/jboss \
+    && curl -o /tmp/apache-wildfly.tar.gz -SsL https://download.jboss.org/wildfly/${WFVERSION}/wildfly-${WFVERSION}.tar.gz \
+    && tar -C /opt/jboss -xzf /tmp/apache-wildfly.tar.gz \
+    && ln -s /opt/jboss/apache-wildfly-${WFVERSION} ${WILDFLY_HOME} \
+    && rm -rf /var/cache/apk/* /tmp/*
+#
+COPY run.sh /opt/jboss/
+#
+VOLUME ["/opt/jboss/wildfly/standalone/deployments/"]
+#
+EXPOSE 8080 9990
+#
+ENTRYPOINT ["/opt/jboss/run.sh"]
+# ENTRYPOINT ["/init"]
