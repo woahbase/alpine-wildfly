@@ -36,7 +36,7 @@ BUILDFLAGS := --rm --force-rm --compress -f $(CURDIR)/Dockerfile_$(ARCH) -t $(IM
 CACHEFLAGS := --no-cache=true --pull
 MOUNTFLAGS := -v $(CURDIR)/webapps:/opt/tomcat/webapps
 NAMEFLAGS  := --name docker_$(SVCNAME) --hostname $(SVCNAME)
-OTHERFLAGS := -v /etc/hosts:/etc/hosts:ro -v /etc/localtime:/etc/localtime:ro # -e TZ=Asia/Kolkata
+OTHERFLAGS := -v /etc/localtime:/etc/localtime:ro # -e TZ=Asia/Kolkata -v /etc/hosts:/etc/hosts:ro
 PORTFLAGS  := -p 8080:8080 -p 9990:9990
 PROXYFLAGS := --build-arg http_proxy=$(http_proxy) --build-arg https_proxy=$(https_proxy) --build-arg no_proxy=$(no_proxy)
 
