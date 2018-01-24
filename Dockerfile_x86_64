@@ -1,9 +1,8 @@
 ARG ARCH=frommakefile
 ARG DOCKERSRC=frommakefile
 ARG USERNAME=frommakefile
-ARG JVVMAJOR=frommakefile
 #
-FROM ${USERNAME}/${DOCKERSRC}:${ARCH}_${JVVMAJOR}
+FROM ${USERNAME}/${DOCKERSRC}:${ARCH}
 #
 ARG WFVERSION=10.1.0.Final
 #
