@@ -5,7 +5,7 @@ ARCH      := $(shell uname -m | sed "s_armv7l_armhf_")# armhf/x86_64 auto-detect
 OPSYS     := alpine
 SHCOMMAND := /bin/bash
 SVCNAME   := wildfly
-WFVERSION := 11.0.0.Final#
+WFVERSION := 15.0.1.Final#
 USERNAME  := woahbase
 
 PUID       := $(shell id -u)
