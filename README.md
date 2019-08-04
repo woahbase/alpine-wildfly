@@ -1,4 +1,4 @@
-[![build status][251]][232] [![commit][255]][231] [![version:x86_64][256]][235] [![size:x86_64][257]][235] [![version:armhf][258]][236] [![size:armhf][259]][236]
+[![build status][251]][232] [![commit][255]][231] [![version:x86_64][256]][235] [![size:x86_64][257]][235] [![version:armhf][258]][236] [![size:armhf][259]][236] [![version:armv7l][260]][237] [![size:armv7l][261]][237] [![version:aarch64][262]][238] [![size:aarch64][263]][238]
 
 ## [Alpine-WildFly][234]
 #### Container for Alpine Linux + OpenJDK8 + WildFly (JBoss) server
@@ -8,18 +8,20 @@ This [image][233] serves as the server for applications / services
 that require a [WildFly][135] server, running under [OpenJDK][136]
 8.\*.\*.
 
-Current released version is `11.0.0.Final`.
+Current [released version][137] is `17.0.1.Final`.
 
 Based on [Alpine Linux][131]  from my [alpine-openjdk8][132] image with the [s6][133] init system
 and GNU LibC [overlayed][134] in it.
 
 The image is tagged respectively for the following architectures,
 * **armhf**
+* **armv7l**
+* **aarch64**
 * **x86_64** (retagged as the `latest` )
 
-**armhf** builds have embedded binfmt_misc support and contain the
+**non-x86_64** builds have embedded binfmt_misc support and contain the
 [qemu-user-static][105] binary that allows for running it also inside
-an x64 environment that has it.
+an x86_64 environment that has it.
 
 ---
 #### Get the Image
@@ -65,9 +67,9 @@ Before you run,
   are needed, rebind the `lib` directory as well.
 
 * the `SERVERCONFIG` environment variable which configuration to
-  use inside the configuration directory, the `PASSWORD`
-  environment variable specifies the default administrator
-  password.
+  use inside the configuration directory, the `USERNAME` and the
+  `PASSWORD` environment variables specify the default
+  administrator credentials.
 
 
 Running `make` starts the service.
@@ -77,6 +79,7 @@ Running `make` starts the service.
 docker run --rm -it \
   --name docker_wildfly --hostname wildfly \
   -e PGID=1000 -e PUID=1000 \
+  -e USERNAME=admin \
   -e PASSWORD=insecurebydefault \
   -e SERVERCONFIG=standalone.xml \
   -p 8080:8080 -p 9990:9990 \
@@ -114,14 +117,14 @@ docker restart docker_wildfly
 Get a shell inside a already running container,
 
 ```
-# make shell
+# make debug
 docker exec -it docker_wildfly /bin/bash
 ```
 
 set user or login as root,
 
 ```
-# make rshell
+# make rdebug
 docker exec -u root -it docker_wildfly /bin/bash
 ```
 
@@ -171,10 +174,8 @@ for other architectures.]
 docker build --rm --compress --force-rm \
   --no-cache=true --pull \
   -f ./Dockerfile_x86_64 \
-  --build-arg ARCH=x86_64 \
-  --build-arg DOCKERSRC=alpine-openjdk8 \
-  --build-arg WFVERSION=11.0.0.Final \
-  --build-arg USERNAME=woahbase \
+  --build-arg DOCKERSRC=woahbase/alpine-openjdk8:x86_64 \
+  --build-arg WFVERSION=17.0.1.Final \
   -t woahbase/alpine-wildfly:x86_64 \
   .
 ```
@@ -186,9 +187,9 @@ To check if its working..
 docker run --rm -it \
   --name docker_wildfly --hostname wildfly \
   -e PGID=1000 -e PUID=1000 \
-  --entrypoint=/opt/jboss/wildfly/bin/jboss-cli.sh \
+  --entrypoint=/opt/jboss/wildfly/bin/standalone.sh \
   woahbase/alpine-wildfly:x86_64 \
-  version
+  --version
 ```
 
 And finally, if you have push access,
@@ -222,6 +223,7 @@ Maintained by [WOAHBase][204].
 [134]: https://github.com/just-containers/s6-overlay
 [135]: http://wildfly.org/
 [136]: http://openjdk.java.net/
+[137]: https://wildfly.org/downloads/
 
 [201]: https://github.com/woahbase
 [202]: https://travis-ci.org/woahbase/
@@ -234,6 +236,8 @@ Maintained by [WOAHBase][204].
 [234]: https://woahbase.online/#/images/alpine-wildfly
 [235]: https://microbadger.com/images/woahbase/alpine-wildfly:x86_64
 [236]: https://microbadger.com/images/woahbase/alpine-wildfly:armhf
+[237]: https://microbadger.com/images/woahbase/alpine-wildfly:armv7l
+[238]: https://microbadger.com/images/woahbase/alpine-wildfly:aarch64
 
 [251]: https://travis-ci.org/woahbase/alpine-wildfly.svg?branch=master
 
@@ -244,3 +248,9 @@ Maintained by [WOAHBase][204].
 
 [258]: https://images.microbadger.com/badges/version/woahbase/alpine-wildfly:armhf.svg
 [259]: https://images.microbadger.com/badges/image/woahbase/alpine-wildfly:armhf.svg
+
+[260]: https://images.microbadger.com/badges/version/woahbase/alpine-wildfly:armv7l.svg
+[261]: https://images.microbadger.com/badges/image/woahbase/alpine-wildfly:armv7l.svg
+
+[262]: https://images.microbadger.com/badges/version/woahbase/alpine-wildfly:aarch64.svg
+[263]: https://images.microbadger.com/badges/image/woahbase/alpine-wildfly:aarch64.svg
